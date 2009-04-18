@@ -2,7 +2,7 @@
 
 # Setup using: update-rc.d sandbox_milter start 19 2 3 4 5 . stop 21 0 1 6 .
 
-MILTER=/etc/sandbox_milter/sandbox_milter.py
+MILTER=/usr/local/sandbox_milter/sandbox_milter.py
 SMTPD_PIDFILE=/var/run/sandbox_milter_smtpd.pid
 NONSMTPD_PIDFILE=/var/run/sandbox_milter_nonsmtpd.pid
 
