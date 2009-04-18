@@ -50,8 +50,12 @@ or anything other than email addresses or domains.
 
 The valid_senders and allowed_recipients files are re-read upon each email
 delivery, so changes to these two files do not require sandbox_milter to be
-restarted.  However, sandbox_milter.cfg changes will require sandbox_milter to
-be restarted in order for these changes to take effect.
+restarted.  The text format that is used in both files causes the milter to not
+scale well when these two files grow large.  Should this be the case, these
+files should be turned into database or hash files.
+
+Changes to sandbox_milter.cfg will require sandbox_milter to be restarted in
+order for these changes to take effect.
 
 
 RULES IMPLEMENTED BY SANDBOX_MILTER
