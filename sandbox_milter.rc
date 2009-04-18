@@ -1,0 +1,49 @@
+#! /bin/sh
+
+# Setup using: update-rc.d sandbox_milter start 19 2 3 4 5 . stop 21 0 1 6 .
+
+MILTER=/etc/sandbox_milter/sandbox_milter.py
+SMTPD_PIDFILE=/var/run/sandbox_milter_smtpd.pid
+NONSMTPD_PIDFILE=/var/run/sandbox_milter_nonsmtpd.pid
+
+. /lib/lsb/init-functions
+
+test -x $MILTER || exit 0
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting Sandbox Milter"
+        if [ "$(pidofproc -p $SMTPD_PIDFILE)" = "" ]; then
+            log_progress_msg "smtpd"
+            start-stop-daemon --start --quiet --background --chuid milter:milter --pidfile=$SMTPD_PIDFILE --make-pidfile --exec $MILTER -- smtpd
+        fi
+        if [ "$(pidofproc -p $NONSMTPD_PIDFILE)" = "" ]; then
+            log_progress_msg "nonsmtpd"
+            start-stop-daemon --start --quiet --background --chuid milter:milter --pidfile=$NONSMTPD_PIDFILE --make-pidfile --exec $MILTER -- nonsmtpd
+        fi
+        log_end_msg 0
+	;;
+    stop)
+        log_daemon_msg "Stopping Sandbox Milter"
+        if [ "$(pidofproc -p $SMTPD_PIDFILE)" != "" ]; then
+            log_progress_msg "smtpd"
+            start-stop-daemon --stop --quiet --pidfile=$SMTPD_PIDFILE --retry 1
+        fi
+        if [ "$(pidofproc -p $NONSMTPD_PIDFILE)" != "" ]; then
+            log_progress_msg "nonsmtpd"
+            start-stop-daemon --stop --quiet --pidfile=$NONSMTPD_PIDFILE --retry 1
+        fi
+        log_end_msg 0
+	;;
+
+    restart)
+        $0 stop
+        $0 start
+	;;
+
+    *)
+	echo "Usage: /etc/init.d/sandbox_milter {start|stop|restart}"
+	exit 1
+esac
+
+exit 0
