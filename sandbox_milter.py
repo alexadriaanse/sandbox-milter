@@ -81,12 +81,15 @@ class SandboxMilter(Milter.Milter):
             match = normalize_re.match(recipient)
             (prefix, recipient_email, suffix) = match.groups()
             recipient_parts = recipient_email.rsplit('@', 1)
-            if (len(recipient_parts) == 2):
-                domain_part = '@' + recipient_parts[1]
-                if (lookupKey(config.get('sandbox', 'allowed_recipients'), domain_part)):
-                    # Don't redirect email
-                    continue
+            if (len(recipient_parts) != 2):
+                # Recipient doesn't have a domain, so it's a local recipient
+                # which we never redirect
+                continue
 
+            domain_part = '@' + recipient_parts[1]
+            if (lookupKey(config.get('sandbox', 'allowed_recipients'), domain_part)):
+                # Don't redirect email
+                continue
             if (lookupKey(config.get('sandbox', 'allowed_recipients'), recipient_email)):
                 # Don't redirect email
                 continue
