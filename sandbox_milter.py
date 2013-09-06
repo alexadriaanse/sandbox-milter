@@ -105,19 +105,16 @@ class SandboxMilter(Milter.Milter):
         return Milter.CONTINUE
 
 def lookupKey(file, key):
-    db = open(file, 'r')
-    lines = db.readlines();
-    db.close()
-    for line in lines:
-        value = line.strip()
-        if (key.lower() == value.lower()):
-            # Key was found
-            db.close()
-            return True
+    with open(file, 'r') as db:
+        lines = db.readlines();
+        for line in lines:
+            value = line.strip()
+            if (key.lower() == value.lower()):
+                # Key was found
+                return True
 
-    # Key was not found
-    db.close()
-    return False
+        # Key was not found
+        return False
 
 if (__name__ == "__main__"):
     os.umask(0002)
