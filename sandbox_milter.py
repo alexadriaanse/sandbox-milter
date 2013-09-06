@@ -117,7 +117,7 @@ def lookupKey(file, key):
         return False
 
 if (__name__ == "__main__"):
-    os.umask(0002)
+    os.umask(0o002)
 
     if (len(sys.argv) != 2):
         print('Usage: %s MODE' % sys.argv[0])
