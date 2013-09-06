@@ -1,6 +1,15 @@
 #! /bin/sh
 
-# Setup using: update-rc.d sandbox_milter start 19 2 3 4 5 . stop 21 0 1 6 .
+### BEGIN INIT INFO
+# Provides:          sandbox_milter
+# Required-Start:    $local_fs $remote_fs $syslog
+# Required-Stop:     $local_fs $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop sandbox milter
+### END INIT INFO
+
+# Setup using: update-rc.d sandbox_milter defaults
 
 MILTER=/usr/local/sandbox_milter/sandbox_milter.py
 SMTPD_PIDFILE=/var/run/sandbox_milter_smtpd.pid
