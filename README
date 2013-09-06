@@ -1,4 +1,5 @@
-OVERVIEW
+sandbox-milter
+==============
 
 The purpose of this milter is to trap and redirect certain emails.  This is
 useful for a development environment, where certain emails that are sent out by
@@ -8,37 +9,41 @@ sandbox_milter provides both an "smtpd" and "nonsmtpd" milter.  The type of
 milter that is started is determined through a command-line argument.
 
 
-PREREQUISITES
+Prerequisites
+-------------
+
 - Python 2.7 (provided by the Debian python2.7 package)
 - Python milter (provided by the Debian python-milter package)
 
 This milter has been tested with Postfix 2.7 on Debian Linux 7.1.
 
 
-EXAMPLE POSTFIX CONFIGURATION
+Example postfix configuration
+-----------------------------
 
-milter_default_action = accept
-non_smtpd_milters = unix:/milter/sandbox_nonsmtpd_milter.sock
-smtpd_milters = unix:/milter/sandbox_smtpd_milter.sock
-milter_protocol = 6
+    milter_default_action = accept
+    non_smtpd_milters = unix:/milter/sandbox_nonsmtpd_milter.sock
+    smtpd_milters = unix:/milter/sandbox_smtpd_milter.sock
+    milter_protocol = 6
 
-(Note: Postfix is chrooted on Debian by default chrooted, so be sure to keep
-that in mind when configuring the milter socket paths)
+Note: Postfix is chrooted on Debian by default chrooted, so be sure to keep
+that in mind when configuring the milter socket paths
 
 
-USAGE
+Usage
+-----
 
-sandbox_milter.py smtpd
-    -or-
-sandbox_milter.py nonsmtpd
+    sandbox_milter.py smtpd
+    sandbox_milter.py nonsmtpd
 
 Output is logged to the mail.info and/or mail.debug syslog facilities
 
 
-CONFIGURATION
+Configuration
+-------------
 
 The valid_senders file contains a list of legitimate senders whose emails are
-NOT redirected IFF sent through SMTP.
+**not** redirected **iff** sent through SMTP.
 
 The allowed_recipients contains a list of recipients whose emails are never
 redirected to <redirect_address>.  This usually contains a list of development
@@ -58,14 +63,16 @@ Changes to sandbox_milter.cfg will require sandbox_milter to be restarted in
 order for these changes to take effect.
 
 
-RULES IMPLEMENTED BY SANDBOX_MILTER
+Rules implemented by sandbox_milter
+-----------------------------------
 
 Redirect email to <redirect_address> unless:
-  1. Envelope sender email address is in valid_senders list AND email is sent through SMTP, or
-  2. Envelope recipient email address or domain is in allowed_recipients
+1. Envelope sender email address is in valid_senders list AND email is sent through SMTP, or
+2. Envelope recipient email address or domain is in allowed_recipients
 
 
-INSTALLATION
+Installation
+------------
 
 1. Create a milter group, and add the postfix user to it
 2. Create a milter user, and assign it to the milter group
