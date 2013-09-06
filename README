@@ -63,3 +63,11 @@ RULES IMPLEMENTED BY SANDBOX_MILTER
 Redirect email to <redirect_address> unless:
   1. Envelope sender email address is in valid_senders list AND email is sent through SMTP, or
   2. Envelope recipient email address or domain is in allowed_recipients
+
+
+INSTALLATION
+
+1. Create a milter group, and add the postfix user to it
+2. Create a milter user, and assign it to the milter group
+3. Copy or symlink sandbox_milter.rc to /etc/init.d/sandbox_milter
+4. Execute: update-rc.d sandbox_milter defaults
