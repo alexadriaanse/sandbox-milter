@@ -9,10 +9,10 @@ milter that is started is determined through a command-line argument.
 
 
 PREREQUISITES
-- Python 2.5 (provided by the Debian python2.5 package)
+- Python 2.7 (provided by the Debian python2.7 package)
 - Python milter (provided by the Debian python-milter package)
 
-This milter has been tested with Postfix 2.5 on Debian Linux 5.0.
+This milter has been tested with Postfix 2.7 on Debian Linux 7.1.
 
 
 EXAMPLE POSTFIX CONFIGURATION
